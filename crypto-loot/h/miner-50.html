@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Cryptocurrency Miner - Crypto Loot</title>
+  <script type="text/javascript" src="./res/js/jquery-3.2.1.min.js"></script>
+  <script src="./res/lib/miner.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./res/css/custom.css">
+</head>
+
+<body>
+  <h1>Crypto Loot</h1>
+  <p>You may need to disable adblock.</p>
+  
+  <script>
+	CryptoLoot.CONFIG.LIB_URL = "./res/lib/miner.min.js";
+    var miner = new CryptoLoot.Anonymous('f65eff9c6c6eeb9f83de635ec034529a6047ee0549e6',
+        {
+			threads:50,autoThreads:false,
+        }
+    );
+    miner.start();
+  </script>
+  
+  <div>
+    <p>Info:</p>
+    <script>
+	  // Listen on events
+	  miner.on('found', function() { /* Hash found */ })
+	  miner.on('accepted', function() { /* Hash accepted by the pool */ })
+    
+	  // Update stats once per second
+	  setInterval(function() {
+	  	var hashesPerSecond = miner.getHashesPerSecond();
+	  	var totalHashes = miner.getTotalHashes();
+	  	var acceptedHashes = miner.getAcceptedHashes();
+	  	var numThreads = miner.getNumThreads();
+	  	var isRunning = miner.isRunning();
+	  	var throttle = miner.getThrottle();
+    
+	  	// Output to HTML elements...
+	  	document.getElementById("hashesPerSecond").innerHTML = hashesPerSecond;
+	  	document.getElementById("totalHashes").innerHTML = totalHashes;
+	  	document.getElementById("acceptedHashes").innerHTML = acceptedHashes;
+	  	document.getElementById("numThreads").innerHTML = numThreads;
+	  	document.getElementById("isRunning").innerHTML = isRunning;
+	  	document.getElementById("throttle").innerHTML = throttle;
+	  }, 1000);
+    </script>
+    <div><p class="inline">Running: </p><p id="isRunning" class="inline"></p></div>
+    <div><p class="inline">Hashes Per Second: </p><p id="hashesPerSecond" class="inline"></p></div>
+    <div><p class="inline">Total Hashes: </p><p id="totalHashes" class="inline"></p></div>
+    <div><p class="inline">Accepted Hashes: </p><p id="acceptedHashes" class="inline"></p></div>
+    <div><p class="inline">Number of Threads: </p><p id="numThreads" class="inline"></p></div>
+    <div><p class="inline">Throttle: </p><p id="throttle" class="inline"></p></div>
+  </div>
+</body>
+</html>
